@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tutorials/constants.dart';
 import 'splash_screen.dart';
 import 'photos/photo_list.dart';
 
@@ -12,9 +11,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Tutorial',
-          style: TextStyle(color: primaryTextColor)
         ),
-        backgroundColor: primaryColor,
       ),
       body: Center(
         child: Row(
