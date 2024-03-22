@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tutorials/constants.dart';
 import 'home.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,11 +24,11 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Color(0xff1f883d),
+      backgroundColor: primaryColor,
       body: Center(
         child: Text(
           'Splash',
-          style: TextStyle(fontSize: 40, color: Color(0xffFFFFFF)),
+          style: TextStyle(fontSize: 40, color: primaryTextColor),
         )
       ),
     );
