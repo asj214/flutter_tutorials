@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tutorials/constants.dart';
 import 'splash_screen.dart';
+import 'photos/photo_list.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -20,7 +21,6 @@ class Home extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                debugPrint('Home');
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const SplashScreen(),
@@ -28,6 +28,16 @@ class Home extends StatelessWidget {
                 );
               },
               child: const Text('Splash Screen'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const PhotoList(),
+                  ),
+                );
+              },
+              child: const Text('Photo List'),
             ),
           ],
         )
