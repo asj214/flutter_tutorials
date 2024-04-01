@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_tutorials/constants.dart';
+import 'package:flutter_tutorials/apis/member.dart';
+import 'package:flutter_tutorials/components/dialogs.dart';
 
 class MemberJoin extends StatefulWidget {
   const MemberJoin({super.key});
@@ -16,18 +18,49 @@ class _MemberJoin extends State<MemberJoin> {
   String name = '';
   String password = '';
 
-  void tabJoinButton () {
-    debugPrint('tab tab tab');
-  }
+  void tabJoinButton () async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
-  @override
-  void initState() {
-    super.initState();
-    focusNode.addListener(() {
-      if (!focusNode.hasFocus) {
-        _formKey.currentState!.validate();
+      final member = RegisterMember(
+        email: email,
+        name: name,
+        password: password,
+      );
+
+      final resp = await registerMember(member);
+      if (mounted) { 
+        if (resp.statusCode == 201) {
+          final snackBar = SnackBar(
+            content: const Text('회원가입 완료'),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              },
+            ),
+            width: 280.0, // Width of the SnackBar.
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8.0, // Inner padding for SnackBar content.
+            ),
+            duration: const Duration(milliseconds: 1500),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+          // final Map<String, dynamic> respBody = jsonDecode(resp.body);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const BasicDialog(message: '에러가 발생했습니다.');
+            },
+          );
+        }
       }
-    });
+    }
   }
 
   @override
@@ -51,7 +84,7 @@ class _MemberJoin extends State<MemberJoin> {
           children: [
             const Padding(
               padding: EdgeInsets.fromLTRB(5, 40, 5, 40),
-              child: Text('환영', style: TextStyle(fontSize: 50, color: Colors.green),),
+              child: Text('드루와', style: TextStyle(fontSize: 50, color: Colors.green),),
             ),
             Padding(
               padding: const EdgeInsets.all(5),
@@ -68,13 +101,18 @@ class _MemberJoin extends State<MemberJoin> {
                   isDense: true,
                   contentPadding: inputPad,
                 ),
-                focusNode: focusNode,
+                // focusNode: focusNode,
                 validator: (value) {
                   String chkVal = value.toString();
                   if (!EmailValidator.validate(chkVal)) {
                     return 'You Need Press Enter Right Email';
                   }
                   return null;
+                },
+                onSaved: (val) {
+                  setState(() {
+                    email = val.toString();
+                  });
                 },
               ),
             ),
@@ -93,12 +131,16 @@ class _MemberJoin extends State<MemberJoin> {
                   isDense: true,
                   contentPadding: inputPad,
                 ),
-                focusNode: focusNode,
                 validator: (value) {
                   if (value.toString().length < 2) {
                     return 'Dammit!!!!';
                   }
                   return null;
+                },
+                onSaved: (val) {
+                  setState(() {
+                    name = val.toString();
+                  });
                 },
               ),
             ),
@@ -118,6 +160,11 @@ class _MemberJoin extends State<MemberJoin> {
                   isDense: true,
                   contentPadding: inputPad
                 ),
+                onSaved: (val) {
+                  setState(() {
+                    password = val.toString();
+                  });
+                },
               )
             ),
             Padding(
@@ -131,7 +178,7 @@ class _MemberJoin extends State<MemberJoin> {
                     borderRadius: BorderRadius.all(Radius.circular(2)),
                   ),
                 ),
-                onPressed: tabJoinButton,
+                onPressed: () => tabJoinButton(),
                 child: const Text('회원가입', style: TextStyle(color: primaryTextColor))
               )
             ),
