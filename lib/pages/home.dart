@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'splash_screen.dart';
 import 'photos/photo_list.dart';
 import 'member/member_join.dart';
+import 'member/login.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -49,6 +50,16 @@ class Home extends StatelessWidget {
               );
             },
             child: const Text('Member Join'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Login(),
+                ),
+              );
+            },
+            child: const Text('Login Page'),
           ),
         ]
       )
