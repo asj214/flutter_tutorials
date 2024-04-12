@@ -7,16 +7,18 @@ class Member {
   final String name;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final DateTime lastLoginAt;
 
   const Member({
     required this.email,
     required this.name,
     required this.createdAt,
-    required this.updatedAt
+    required this.updatedAt,
+    required this.lastLoginAt
   });
 }
 
-Future<Member> currentMember(String token) async {
+Future<Member> currentMember(String? token) async {
   final resp = await http.get(
     Uri.parse('${baseApiUrl}auth/me'),
     headers: <String, String> {
@@ -28,8 +30,9 @@ Future<Member> currentMember(String token) async {
   return Member(
     email: respBody['email'],
     name: respBody['name'],
-    createdAt: respBody['created_at'],
-    updatedAt: respBody['updated_at']
+    createdAt: DateTime.parse(respBody['created_at']),
+    updatedAt: DateTime.parse(respBody['updated_at']),
+    lastLoginAt: DateTime.parse(respBody['last_login'])
   );
 }
 

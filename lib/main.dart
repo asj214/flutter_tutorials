@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'pages/home.dart';
 import 'pages/splash_screen.dart';
 import 'pages/photos/photo_list.dart';
 import 'pages/member/member_join.dart';
 import 'pages/member/login.dart';
+import 'utils/user_state.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserState(),
+      child: const MainApp()
+    )
+  );
 }
 
 class MainApp extends StatelessWidget {
