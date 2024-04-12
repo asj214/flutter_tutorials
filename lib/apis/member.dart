@@ -16,6 +16,23 @@ class Member {
   });
 }
 
+Future<Member> currentMember(String token) async {
+  final resp = await http.get(
+    Uri.parse('${baseApiUrl}auth/me'),
+    headers: <String, String> {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token'
+    }
+  );
+  final respBody = jsonDecode(resp.body);
+  return Member(
+    email: respBody['email'],
+    name: respBody['name'],
+    createdAt: respBody['created_at'],
+    updatedAt: respBody['updated_at']
+  );
+}
+
 class RegisterMember {
   final String email;
   final String name;
@@ -45,4 +62,51 @@ Future<http.Response> registerMember(RegisterMember member) async {
       'Content-Type': 'application/json; charset=UTF-8',
     }
   );
+}
+
+class LoginData {
+  final String email;
+  final String password;
+
+  const LoginData({
+    required this.email,
+    required this.password
+  });
+}
+
+class LoginRespData {
+  final String email;
+  final String name;
+  final String token;
+
+  const LoginRespData({
+    required this.email,
+    required this.name,
+    required this.token
+  });
+}
+
+Future<LoginRespData> loginMember(LoginData member) async {
+  final resp = await http.post(
+    Uri.parse('${baseApiUrl}auth/login'),
+    body: jsonEncode({
+      'email': member.email,
+      'password': member.password
+    }),
+    headers: <String, String> {
+      'Content-Type': 'application/json; charset=UTF-8',
+    }
+  );
+
+  if (resp.statusCode != 200) {
+    // 응답 상태 코드가 200이 아닌 경우에는 실패로 처리
+    throw Exception('Failed to login: ${resp.statusCode}');
+  } else {
+    final respBody = jsonDecode(resp.body);
+    return LoginRespData(
+      email: respBody['email'],
+      name: respBody['name'],
+      token: respBody['token']
+    );
+  }
 }

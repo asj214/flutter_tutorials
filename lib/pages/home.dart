@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'splash_screen.dart';
-import 'photos/photo_list.dart';
-import 'member/member_join.dart';
-import 'member/login.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -23,41 +19,25 @@ class Home extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const SplashScreen(),
-                ),
-              );
+              Navigator.of(context).pushNamed('/splashScreen');
             },
             child: const Text('Splash Screen'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const PhotoList(),
-                ),
-              );
+              Navigator.of(context).pushNamed('/photos');
             },
             child: const Text('Photo List'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const MemberJoin(),
-                ),
-              );
+              Navigator.of(context).pushNamed('/memberRegister');
             },
             child: const Text('Member Join'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const Login(),
-                ),
-              );
+              Navigator.of(context).pushNamed('/memberLogin');
             },
             child: const Text('Login Page'),
           ),

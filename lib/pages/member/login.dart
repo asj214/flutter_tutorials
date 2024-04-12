@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_tutorials/constants.dart';
+import 'package:flutter_tutorials/apis/member.dart';
+import 'package:flutter_tutorials/utils/token.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,7 +15,6 @@ class _Login extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
   String email = '';
-  String name = '';
   String password = '';
 
   @override
@@ -96,7 +97,7 @@ class _Login extends State<Login> {
                     borderRadius: BorderRadius.all(Radius.circular(2)),
                   ),
                 ),
-                onPressed: () => {},
+                onPressed: () => authenticate(),
                 child: const Text('로그인', style: TextStyle(color: primaryTextColor))
               )
             ),
@@ -106,9 +107,6 @@ class _Login extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    // style: TextButton.styleFrom(
-                    //   textStyle: const TextStyle(fontSize: 20),
-                    // ),
                     onPressed: null,
                     child: Text('아이디/비밀번호 찾기'),
                   ),
@@ -121,9 +119,6 @@ class _Login extends State<Login> {
                     color: Colors.grey,
                   ),
                   TextButton(
-                    // style: TextButton.styleFrom(
-                    //   textStyle: const TextStyle(fontSize: 20),
-                    // ),
                     onPressed: null,
                     child: Text('회원가입'),
                   )
@@ -134,5 +129,27 @@ class _Login extends State<Login> {
         )
       ),
     );
+  }
+
+  void authenticate () async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      try {
+        LoginRespData resp = await loginMember(LoginData(
+          email: email,
+          password: password
+        ));
+
+        saveToken(resp.token);
+        // aysnc 이기 때문에 렌더링 시점 차이로 인해서 mounted 사용해주어야함
+        if (mounted) {
+          Navigator.of(context).pushNamed('/home');
+        }
+
+      } catch (e) {
+        debugPrint('로그인 실패: {$e}');
+      }
+    }
   }
 }
