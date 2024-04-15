@@ -19,9 +19,6 @@ class _SplashScreen extends State<SplashScreen> {
   void initState () {
     super.initState();
     checkTokenLogin();
-    // Future.delayed(const Duration(seconds: 3), () {
-    //   Navigator.pushReplacementNamed(context, '/home');
-    // });
   }
 
   void checkTokenLogin() async {
@@ -31,11 +28,11 @@ class _SplashScreen extends State<SplashScreen> {
     if (token != null && token!.isNotEmpty) {
       final member = await currentMember(token);
 
-      if (!mounted) return;
-
-      final userState = Provider.of<UserState>(context, listen: false);
-      userState.setLogin(member);
-      Navigator.pushReplacementNamed(context, '/home');
+      if (mounted) {
+        final userState = Provider.of<UserState>(context, listen: false);
+        userState.setLogin(member);
+        Navigator.pushReplacementNamed(context, '/home');
+      }
     }
 
     // API 통신이 지연되는 경우 스플래시 스크린 지연 노출

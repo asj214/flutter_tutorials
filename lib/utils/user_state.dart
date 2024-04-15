@@ -3,17 +3,18 @@ import 'package:flutter_tutorials/apis/member.dart';
 
 class UserState extends ChangeNotifier {
   bool isLogin = false;
-  Member? info;
+  Member? _info;
+  Member? get info => _info;
 
   void setLogin(Member info) {
     isLogin = true;
-    info = info;
+    _info = info;
     notifyListeners();
   }
 
   void setLogout() {
     isLogin = false;
-    info = null;
+    _info = null;
     notifyListeners();
   }
 }

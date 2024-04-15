@@ -41,6 +41,12 @@ class Home extends StatelessWidget {
             },
             child: const Text('Login Page'),
           ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/infoPage');
+            },
+            child: const Text('info Page'),
+          ),
         ]
       )
     );

@@ -6,7 +6,9 @@ import 'pages/splash_screen.dart';
 import 'pages/photos/photo_list.dart';
 import 'pages/member/member_join.dart';
 import 'pages/member/login.dart';
+import 'pages/info_page.dart';
 import 'utils/user_state.dart';
+
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +43,7 @@ class MainApp extends StatelessWidget {
         '/photos': (context) => const PhotoList(),
         '/memberRegister': (context) => const MemberJoin(),
         '/memberLogin': (context) => const Login(),
+        '/infoPage': (context) => const InfoPage(),
       }
     );
   }
