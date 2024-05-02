@@ -7,6 +7,7 @@ import 'pages/photos/photo_list.dart';
 import 'pages/member/member_join.dart';
 import 'pages/member/login.dart';
 import 'pages/info_page.dart';
+import 'pages/charts/chart_page.dart';
 import 'utils/user_state.dart';
 
 
@@ -44,6 +45,7 @@ class MainApp extends StatelessWidget {
         '/memberRegister': (context) => const MemberJoin(),
         '/memberLogin': (context) => const Login(),
         '/infoPage': (context) => const InfoPage(),
+        '/chartPage': (context) => const ChartPage(),
       }
     );
   }

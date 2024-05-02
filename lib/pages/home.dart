@@ -47,6 +47,12 @@ class Home extends StatelessWidget {
             },
             child: const Text('info Page'),
           ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/chartPage');
+            },
+            child: const Text('Charts'),
+          ),
         ]
       )
     );
