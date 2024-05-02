@@ -18,7 +18,7 @@ class Member {
   });
 }
 
-Future<Member> currentMember(String? token) async {
+Future<Member?> currentMember(String? token) async {
   final resp = await http.get(
     Uri.parse('${baseApiUrl}auth/me'),
     headers: <String, String> {
@@ -26,14 +26,20 @@ Future<Member> currentMember(String? token) async {
       'Authorization': 'Bearer $token'
     }
   );
+
   final respBody = jsonDecode(resp.body);
-  return Member(
-    email: respBody['email'],
-    name: respBody['name'],
-    createdAt: DateTime.parse(respBody['created_at']),
-    updatedAt: DateTime.parse(respBody['updated_at']),
-    lastLoginAt: DateTime.parse(respBody['last_login'])
-  );
+
+  if (resp.statusCode == 200) {
+    return Member(
+      email: respBody['email'],
+      name: respBody['name'],
+      createdAt: DateTime.parse(respBody['created_at']),
+      updatedAt: DateTime.parse(respBody['updated_at']),
+      lastLoginAt: DateTime.parse(respBody['last_login'])
+    );
+  }
+
+  return null;
 }
 
 class RegisterMember {
