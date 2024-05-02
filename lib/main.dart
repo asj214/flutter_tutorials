@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
-import 'pages/splash_screen.dart';
+import 'package:provider/provider.dart';
 import 'constants.dart';
+import 'pages/home.dart';
+import 'pages/splash_screen.dart';
+import 'pages/photos/photo_list.dart';
+import 'pages/member/member_join.dart';
+import 'pages/member/login.dart';
+import 'pages/info_page.dart';
+import 'utils/user_state.dart';
+
 
 void main() {
-  runApp(const MainApp());
+  // WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserState(),
+      child: const MainApp()
+    )
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -23,6 +37,14 @@ class MainApp extends StatelessWidget {
           toolbarHeight: 45
         )
       ),
+      routes: {
+        '/home': (context) => const Home(),
+        '/splashScreen': (context) => const SplashScreen(),
+        '/photos': (context) => const PhotoList(),
+        '/memberRegister': (context) => const MemberJoin(),
+        '/memberLogin': (context) => const Login(),
+        '/infoPage': (context) => const InfoPage(),
+      }
     );
   }
 }
