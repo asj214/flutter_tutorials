@@ -25,13 +25,18 @@ class _SplashScreen extends State<SplashScreen> {
     // 최소 3초간 노출
     await Future.delayed(const Duration(seconds: 3));
     token = await getToken();
+    debugPrint(token);
     if (token != null && token!.isNotEmpty) {
       final member = await currentMember(token);
 
       if (mounted) {
-        final userState = Provider.of<UserState>(context, listen: false);
-        userState.setLogin(member);
-        Navigator.pushReplacementNamed(context, '/home');
+        if (member != null) {
+          final userState = Provider.of<UserState>(context, listen: false);
+          userState.setLogin(member);
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          Navigator.pushReplacementNamed(context, '/memberLogin');
+        }
       }
     }
 
